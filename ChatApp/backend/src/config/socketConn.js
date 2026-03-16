@@ -7,12 +7,16 @@ const httpServer = http.createServer()
 const io = new Server(httpServer,{
     cors: {
         origin: "*",
-        credentials: true
     }
 })
 
-io.on("Connection", (socket)=>{
+io.on("connection", (socket)=>{
     console.log(`Socket ${socket.id} get connected`)
+    socket.on("getuser", (username)=>{
+        console.log(`${username} just got connected`)
+    })
 })
+
+
 
 export {io, httpServer}
