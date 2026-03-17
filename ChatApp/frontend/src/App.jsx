@@ -15,16 +15,27 @@ function App() {
     socket.username = username
 
     socket.connect()
-    socket.emit("getuser", socket.username)
-    
+   
     setSocket(socket)
 
-  },[username])
+    return ()=>{
+      socket.disconnect()
+    }
+
+  },[])
+
+  socket?.on("others", (username)=>{
+    console.log(username)
+  })
+
+  const handleSubmit = ()=>{
+    if(socket && username) socket.emit("getuser", username)
+  }
 
   return (
    <>
-   <input className='input' value={username} onSubmit={(e)=> setUsername(e.target.value)}/>
-   <button className='btn' type='submit'>Submit</button>
+   <input className='input' value={username} onChange={(e)=> setUsername(e.target.value)}/>
+   <button className='btn' type='submit' onClick={handleSubmit}>Submit</button>
    </>
   )
 }

@@ -14,7 +14,9 @@ io.on("connection", (socket)=>{
     console.log(`Socket ${socket.id} get connected`)
     socket.on("getuser", (username)=>{
         console.log(`${username} just got connected`)
+         socket.broadcast.emit("others", username)
     })
+   
 })
 
 
