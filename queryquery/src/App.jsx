@@ -7,23 +7,30 @@ function App() {
   const [data, setData] = useState(null)
   const [page, setPage ] = useState(1)
 
+  const [person, setPerson] = useState("")
+
   const dataFetching = async()=>{
     console.log(page)
     const res = await fetch(`https://api.github.com/search/users?q=react&page=${page}&per_page=20`)
     const newData = await res.json()
-    setData((data)=> data? data + newData : newData)
-    console.log(data)
+    const items = newData.items
+    // console.log(newData)
+    // setData((data)=> data? [...data, ...items]: items)
+
   }
+    
 
   useEffect(()=>{
     dataFetching()
   },[page])
 
+ 
   return data? (
     <>
     <div>
+     
       <div className='flex flex-wrap gap-5 m-5'>      {
-        data.items?.map((item)=>
+        data.map((item)=>
         <div key={item.id}>
           <img src={`${item.avatar_url}`} alt="" className='w-[50px] h-[50px]' />
            </div>
@@ -37,7 +44,7 @@ function App() {
     </div>
     </>
   ) : (
-    <div> Loading...</div>
+    <div>  <input type="text" className='input w-[180px] h-[40px] border border-black rounded-lg ml-[600px]' value={person} /></div>
   )
 }
 
